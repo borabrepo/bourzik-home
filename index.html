@@ -30,7 +30,7 @@
   }
   .wrap{max-width:46rem;margin:0 auto;padding:3.5rem 1.5rem 4rem}
   .tif{font-family:"Noto Sans Tifinagh",Archivo,sans-serif}
-
+ 
   /* Hero: the name in Latin and Tifinagh */
   .name{
     font-size:clamp(2.6rem,11vw,4.4rem);
@@ -54,7 +54,7 @@
     color:var(--muted);
   }
   .intro strong{color:var(--parchment);font-weight:500}
-
+ 
   /* Apps */
   .apps{margin-top:3.25rem;border-top:1px solid var(--rule)}
   .app{
@@ -83,7 +83,7 @@
   .app p{margin:.4rem 0 0;color:var(--muted);font-size:.97rem}
   .app:hover h2,.app:focus-visible h2{color:var(--saffron)}
   .app:focus-visible{outline:2px solid var(--saffron);outline-offset:6px;border-radius:2px}
-
+ 
   footer{
     margin-top:3rem;
     color:var(--muted);
@@ -95,21 +95,21 @@
 </head>
 <body>
 <main class="wrap">
-
+ 
   <h1 class="name">
     Bourzik
     <span class="name-tif tif" lang="zgh">ⴱⵓⵔⵣⵉⴽ</span>
   </h1>
-
+ 
   <p class="intro">
     Welcome to <strong>Bourzik laboratory</strong>, an AI and data engineering hub for
     experimental projects. In my own time I build small, free web tools, mostly for writing
     systems and for learning languages. They run in the browser, store nothing, and work
     offline once you've opened them.
   </p>
-
+ 
   <section class="apps">
-
+ 
     <a class="app" href="https://tifinagh.bourzik.com">
       <img class="icon" src="./icons/tifinagh.png" alt="" width="68" height="68">
       <span>
@@ -117,7 +117,7 @@
         <p>Write Amazigh in various languages' letters and read it back in Tifinagh, or the other way round.</p>
       </span>
     </a>
-
+ 
     <a class="app" href="https://genus.bourzik.com">
       <img class="icon" src="./icons/genus.png" alt="" width="68" height="68">
       <span>
@@ -125,13 +125,21 @@
         <p>Look up the gender of any German or other language noun, and drill the ones you keep getting wrong.</p>
       </span>
     </a>
-
+ 
+    <a class="app" href="https://tree.bourzik.com">
+      <img class="icon" src="./icons/tree.png" alt="" width="68" height="68">
+      <span>
+        <h2>Bormap</h2>
+        <p>Map ideas, people or data as a connected graph and follow the branches.</p>
+      </span>
+    </a>
+ 
   </section>
-
+ 
   <footer>
     Built in the open on <a href="https://github.com/borabrepo">GitHub</a>.
   </footer>
-
+ 
 </main>
 </body>
 </html>
