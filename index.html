@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Noto+Sans+Tifinagh&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="./media/ambient-poster.jpg">
 <style>
   :root{
     --indigo:#16233F;
@@ -31,7 +32,30 @@
   .wrap{max-width:46rem;margin:0 auto;padding:3.5rem 1.5rem 4rem}
   .tif{font-family:"Noto Sans Tifinagh",Archivo,sans-serif}
 
-  /* Hero: the name in Latin and Tifinagh */
+  /* Hero: the name over a silent, looping background video */
+  .hero{
+    position:relative;
+    min-height:min(88vh,52rem);
+    display:flex;
+    align-items:flex-end;
+    overflow:hidden;
+    background:var(--indigo-deep) url("./media/ambient-poster.jpg") center/cover no-repeat;
+  }
+  .hero-video{
+    position:absolute;inset:0;
+    width:100%;height:100%;
+    object-fit:cover;
+  }
+  /* Keeps the text readable and blends the video into the page below */
+  .hero::after{
+    content:"";
+    position:absolute;inset:0;
+    background:
+      linear-gradient(180deg,rgba(15,25,48,.35) 0%,rgba(15,25,48,.55) 55%,var(--indigo) 100%);
+    pointer-events:none;
+  }
+  .hero .wrap{position:relative;z-index:1;width:100%;padding-bottom:3rem}
+
   .name{
     font-size:clamp(2.6rem,11vw,4.4rem);
     font-weight:600;
@@ -55,9 +79,44 @@
   }
   .intro strong{color:var(--parchment);font-weight:500}
 
+  .actions{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1.75rem}
+  .btn{
+    display:inline-flex;align-items:center;gap:.55rem;
+    font:inherit;font-weight:600;font-size:.97rem;
+    padding:.7rem 1.15rem;
+    border-radius:999px;
+    border:1px solid var(--rule);
+    background:rgba(15,25,48,.55);
+    color:var(--parchment);
+    text-decoration:none;
+    cursor:pointer;
+  }
+  .btn-primary{background:var(--saffron);border-color:var(--saffron);color:var(--indigo-deep)}
+  .btn:hover{border-color:var(--saffron)}
+  .btn-primary:hover{filter:brightness(1.08)}
+  .btn:focus-visible{outline:2px solid var(--parchment);outline-offset:3px}
+  .btn svg{width:1rem;height:1rem;flex:none}
+  .made{display:block;margin-top:.9rem;color:var(--muted);font-size:.85rem}
+
+  .bg-toggle{
+    position:absolute;right:1rem;bottom:1rem;z-index:2;
+    width:2.5rem;height:2.5rem;border-radius:50%;
+    display:grid;place-items:center;
+    background:rgba(15,25,48,.6);
+    border:1px solid var(--rule);
+    color:var(--parchment);
+    cursor:pointer;
+  }
+  .bg-toggle:hover{border-color:var(--saffron)}
+  .bg-toggle:focus-visible{outline:2px solid var(--saffron);outline-offset:3px}
+  .bg-toggle svg{width:1rem;height:1rem}
+  @media (max-width:40rem){.bg-toggle{top:1rem;bottom:auto}}
+
   /* Apps */
-  .apps{margin-top:3.25rem;border-top:1px solid var(--rule)}
+  .apps-wrap{padding-top:1rem}
+  .apps{border-top:1px solid var(--rule)}
   .app{
+    position:relative;
     display:grid;
     grid-template-columns:4.25rem 1fr;
     gap:1.25rem;
@@ -84,6 +143,60 @@
   .app:hover h2,.app:focus-visible h2{color:var(--saffron)}
   .app:focus-visible{outline:2px solid var(--saffron);outline-offset:6px;border-radius:2px}
 
+  /* Hover previews: a short silent clip of each tool, shown in the right
+     margin on wide screens with a mouse. Hidden everywhere else. */
+  .preview{display:none}
+  @media (hover:hover) and (min-width:78rem){
+    .preview{
+      display:block;
+      position:absolute;
+      left:calc(100% + 2.5rem);
+      top:50%;
+      width:17rem;
+      aspect-ratio:480/422;
+      border-radius:1rem;
+      overflow:hidden;
+      border:1px solid var(--rule);
+      background:var(--indigo-deep) center/cover no-repeat;
+      box-shadow:0 1.5rem 3rem rgba(0,0,0,.35);
+      opacity:0;
+      transform:translate(-.75rem,-50%) scale(.97);
+      transition:opacity .25s ease,transform .25s ease;
+      pointer-events:none;
+    }
+    .preview video{width:100%;height:100%;object-fit:cover;display:block}
+    .app:hover .preview,.app:focus-visible .preview{opacity:1;transform:translate(0,-50%) scale(1)}
+  }
+
+  /* Tour player */
+  dialog.tour{
+    width:min(92vw,64rem);
+    padding:0;
+    border:1px solid var(--rule);
+    border-radius:1rem;
+    background:var(--indigo-deep);
+    color:var(--parchment);
+    overflow:hidden;
+  }
+  dialog.tour::backdrop{background:rgba(8,13,26,.82)}
+  .tour video{display:block;width:100%;aspect-ratio:16/9;background:#000}
+  .tour-bar{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.75rem 1rem}
+  .tour-bar h2{margin:0;font-size:1rem;font-weight:600}
+  .close{
+    font:inherit;background:none;border:1px solid var(--rule);color:var(--parchment);
+    border-radius:999px;padding:.35rem .9rem;cursor:pointer;
+  }
+  .close:hover{border-color:var(--saffron)}
+  .chapters{display:flex;flex-wrap:wrap;gap:.45rem;padding:0 1rem 1rem;margin:0;list-style:none}
+  .chapters button{
+    font:inherit;font-size:.82rem;
+    padding:.3rem .75rem;border-radius:999px;
+    border:1px solid var(--rule);background:transparent;color:var(--muted);
+    cursor:pointer;
+  }
+  .chapters button:hover{color:var(--parchment);border-color:var(--saffron)}
+  .chapters button[aria-current="true"]{background:var(--saffron);border-color:var(--saffron);color:var(--indigo-deep)}
+
   footer{
     margin-top:3rem;
     color:var(--muted);
@@ -94,22 +207,46 @@
 </style>
 </head>
 <body>
-<main class="wrap">
 
-  <h1 class="name">
-    Bourzik
-    <span class="name-tif tif" lang="zgh">ⴱⵓⵔⵣⵉⴽ</span>
-  </h1>
+<header class="hero">
+  <!-- Silent decorative loop. Not autoplayed for prefers-reduced-motion (see script). -->
+  <video class="hero-video" muted loop playsinline preload="none" poster="./media/ambient-poster.jpg" aria-hidden="true">
+    <source src="./media/ambient.webm" type="video/webm">
+    <source src="./media/ambient.mp4" type="video/mp4">
+  </video>
 
-  <p class="intro">
-    <strong>Bourzik laboratory</strong> is a workshop for small web tools, experiments in
-    language, script, data and physics. Each one does a single thing, runs entirely in the
-    browser, and keeps whatever you do on your own device. All free, all open.
-  </p>
+  <div class="wrap">
+    <h1 class="name">
+      Bourzik
+      <span class="name-tif tif" lang="zgh">ⴱⵓⵔⵣⵉⴽ</span>
+    </h1>
+
+    <p class="intro">
+      <strong>Bourzik laboratory</strong> is a workshop for small web tools, experiments in
+      language, script, data and physics. Each one does a single thing, runs entirely in the
+      browser, and keeps whatever you do on your own device. All free, all open.
+    </p>
+
+    <div class="actions">
+      <button class="btn btn-primary" type="button" id="open-tour">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M4 2.5v11l9-5.5z"/></svg>
+        Watch the 2-minute tour
+      </button>
+      <a class="btn" href="#tools">Explore the tools</a>
+    </div>
+    <span class="made">The tour was made entirely with AI: script, motion, images, voice, music and sound.</span>
+  </div>
+
+  <button class="bg-toggle" type="button" id="bg-toggle" aria-label="Pause background animation" aria-pressed="false">
+    <svg viewBox="0 0 16 16" aria-hidden="true" id="bg-icon"><path fill="currentColor" d="M4 3h3v10H4zm5 0h3v10H9z"/></svg>
+  </button>
+</header>
+
+<main class="wrap apps-wrap" id="tools">
 
   <section class="apps">
 
-    <a class="app" href="https://tifinagh.bourzik.com">
+    <a class="app" href="https://tifinagh.bourzik.com" data-preview="tifinagh">
       <img class="icon" src="./icons/tifinagh.png" alt="" width="68" height="68">
       <span>
         <h2>Tifinagh Converter</h2>
@@ -117,7 +254,7 @@
       </span>
     </a>
 
-    <a class="app" href="https://genus.bourzik.com">
+    <a class="app" href="https://genus.bourzik.com" data-preview="genus">
       <img class="icon" src="./icons/genus.png" alt="" width="68" height="68">
       <span>
         <h2>Genus checker</h2>
@@ -125,7 +262,7 @@
       </span>
     </a>
 
-    <a class="app" href="https://tree.bourzik.com">
+    <a class="app" href="https://tree.bourzik.com" data-preview="bormap">
       <img class="icon" src="./icons/tree.png" alt="" width="68" height="68">
       <span>
         <h2>Bormap</h2>
@@ -133,7 +270,7 @@
       </span>
     </a>
 
-    <a class="app" href="https://jelly-fruit.bourzik.com">
+    <a class="app" href="https://jelly-fruit.bourzik.com" data-preview="jelly">
       <img class="icon" src="./icons/jelly.svg" alt="" width="68" height="68">
       <span>
         <h2>Fruit Jelly Knife</h2>
@@ -141,7 +278,7 @@
       </span>
     </a>
 
-    <a class="app" href="https://vectorspec.bourzik.com">
+    <a class="app" href="https://vectorspec.bourzik.com" data-preview="vectorspec">
       <img class="icon" src="./icons/vectorspec.png" alt="" width="68" height="68">
       <span>
         <h2>VECTORSPEC Engine Lab</h2>
@@ -149,7 +286,7 @@
       </span>
     </a>
 
-    <a class="app" href="https://ccdvf.bourzik.com">
+    <a class="app" href="https://ccdvf.bourzik.com" data-preview="ccdvf">
       <img class="icon" src="./icons/ccdvf.svg" alt="" width="68" height="68">
       <span>
         <h2>CCDV-F Prep Hub</h2>
@@ -164,5 +301,116 @@
   </footer>
 
 </main>
+
+<dialog class="tour" id="tour" aria-labelledby="tour-title">
+  <video id="tour-video" controls playsinline preload="none" poster="./media/tour-poster.jpg">
+    <source src="./media/tour.webm" type="video/webm">
+    <source src="./media/tour.mp4" type="video/mp4">
+    <track kind="captions" src="./media/tour.en.vtt" srclang="en" label="English" default>
+    <track kind="chapters" src="./media/tour.chapters.vtt" srclang="en" label="Chapters">
+  </video>
+  <div class="tour-bar">
+    <h2 id="tour-title">A 2-minute tour of the lab</h2>
+    <button class="close" type="button" id="close-tour">Close</button>
+  </div>
+  <ol class="chapters" id="chapters" aria-label="Chapters"></ol>
+</dialog>
+
+<script>
+(() => {
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  /* Background loop: plays unless the visitor prefers reduced motion or pauses it. */
+  const bg = document.querySelector('.hero-video');
+  const toggle = document.getElementById('bg-toggle');
+  const icon = document.getElementById('bg-icon');
+  const PAUSE = 'M4 3h3v10H4zm5 0h3v10H9z';
+  const PLAY = 'M4 2.5v11l9-5.5z';
+  let paused = reduce.matches;
+
+  const render = () => {
+    icon.firstElementChild.setAttribute('d', paused ? PLAY : PAUSE);
+    toggle.setAttribute('aria-pressed', String(paused));
+    toggle.setAttribute('aria-label', paused ? 'Play background animation' : 'Pause background animation');
+  };
+  const apply = () => {
+    if (paused) bg.pause();
+    else bg.play().catch(() => {});
+    render();
+  };
+  toggle.addEventListener('click', () => { paused = !paused; apply(); });
+  reduce.addEventListener('change', (e) => { paused = e.matches; apply(); });
+  apply();
+
+  /* Hover previews: the clip is only loaded the first time a row is hovered. */
+  const canPreview = window.matchMedia('(hover: hover) and (min-width: 78rem)');
+  document.querySelectorAll('.app[data-preview]').forEach((row) => {
+    const name = row.dataset.preview;
+    const box = document.createElement('span');
+    box.className = 'preview';
+    box.setAttribute('aria-hidden', 'true');
+    box.style.backgroundImage = `url("./media/previews/${name}.jpg")`;
+    row.appendChild(box);
+    let video;
+    const start = () => {
+      if (!canPreview.matches || reduce.matches) return;
+      if (!video) {
+        video = document.createElement('video');
+        video.muted = true; video.loop = true; video.playsInline = true;
+        video.innerHTML =
+          `<source src="./media/previews/${name}.webm" type="video/webm">` +
+          `<source src="./media/previews/${name}.mp4" type="video/mp4">`;
+        box.appendChild(video);
+      }
+      video.currentTime = 0;
+      video.play().catch(() => {});
+    };
+    const stop = () => { if (video) video.pause(); };
+    row.addEventListener('mouseenter', start);
+    row.addEventListener('focus', start);
+    row.addEventListener('mouseleave', stop);
+    row.addEventListener('blur', stop);
+  });
+
+  /* Tour: native <dialog> with clickable chapters read from the chapters track. */
+  const dialog = document.getElementById('tour');
+  const tour = document.getElementById('tour-video');
+  const list = document.getElementById('chapters');
+  const chapterTrack = [...tour.textTracks].find((t) => t.kind === 'chapters');
+
+  const buildChapters = () => {
+    if (!chapterTrack || !chapterTrack.cues || list.children.length) return;
+    [...chapterTrack.cues].forEach((cue) => {
+      const li = document.createElement('li');
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.textContent = cue.text;
+      b.addEventListener('click', () => { tour.currentTime = cue.startTime + 0.05; tour.play().catch(() => {}); });
+      li.appendChild(b);
+      list.appendChild(li);
+    });
+  };
+  if (chapterTrack) {
+    chapterTrack.mode = 'hidden';
+    chapterTrack.addEventListener('cuechange', () => {
+      const active = chapterTrack.activeCues && chapterTrack.activeCues[0];
+      [...list.querySelectorAll('button')].forEach((b) =>
+        b.setAttribute('aria-current', String(!!active && b.textContent === active.text)));
+    });
+  }
+  tour.addEventListener('loadedmetadata', buildChapters);
+
+  document.getElementById('open-tour').addEventListener('click', () => {
+    dialog.showModal();
+    if (!paused) bg.pause();
+    tour.play().catch(() => {});
+    setTimeout(buildChapters, 300);
+  });
+  const close = () => dialog.close();
+  document.getElementById('close-tour').addEventListener('click', close);
+  dialog.addEventListener('click', (e) => { if (e.target === dialog) close(); });
+  dialog.addEventListener('close', () => { tour.pause(); if (!paused) bg.play().catch(() => {}); });
+})();
+</script>
 </body>
 </html>
