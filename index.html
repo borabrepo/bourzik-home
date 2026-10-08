@@ -14,12 +14,15 @@
     --indigo:#16233F;
     --indigo-deep:#0F1930;
     --parchment:#EFE7D6;
+    --soft:#B4BED3;
     --muted:#8E9BB8;
     --saffron:#E4A13C;
     --rule:rgba(239,231,214,.14);
+    --rule-strong:rgba(239,231,214,.24);
   }
   *{box-sizing:border-box}
-  html{-webkit-text-size-adjust:100%}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
   body{
     margin:0;
     background:var(--indigo);
@@ -29,144 +32,142 @@
     line-height:1.6;
     -webkit-font-smoothing:antialiased;
   }
-  .wrap{max-width:46rem;margin:0 auto;padding:3.5rem 1.5rem 4rem}
-  .tif{font-family:"Noto Sans Tifinagh",Archivo,sans-serif}
+  a{color:inherit}
+  .wrap{max-width:75rem;margin:0 auto;padding:0 1.5rem}
+  .tif{font-family:"Noto Sans Tifinagh",Archivo,sans-serif;font-weight:400;letter-spacing:.06em;color:var(--saffron)}
+  :focus-visible{outline:2px solid var(--saffron);outline-offset:3px}
+  svg{flex:none}
 
-  /* Hero: the name over a silent, looping background video */
+  /* Hero: navigation, intro and tour card over a silent, looping background video */
   .hero{
     position:relative;
-    min-height:min(88vh,52rem);
-    display:flex;
-    align-items:flex-end;
     overflow:hidden;
     background:var(--indigo-deep) url("./media/ambient-poster.jpg") center/cover no-repeat;
+    border-bottom:1px solid var(--rule);
   }
-  .hero-video{
-    position:absolute;inset:0;
-    width:100%;height:100%;
-    object-fit:cover;
-  }
-  /* Keeps the text readable and blends the video into the page below */
-  .hero::after{
-    content:"";
-    position:absolute;inset:0;
-    background:
-      linear-gradient(180deg,rgba(15,25,48,.35) 0%,rgba(15,25,48,.55) 55%,var(--indigo) 100%);
-    pointer-events:none;
-  }
-  .hero .wrap{position:relative;z-index:1;width:100%;padding-bottom:3rem}
+  .hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  /* Keeps the text readable over the video */
+  .hero::after{content:"";position:absolute;inset:0;background:rgba(15,25,48,.72);pointer-events:none}
+  .hero > .nav,.hero > .hero-body{position:relative;z-index:1}
 
-  .name{
-    font-size:clamp(2.6rem,11vw,4.4rem);
-    font-weight:600;
-    letter-spacing:-.035em;
-    line-height:1;
-    margin:0;
-  }
-  .name-tif{
-    display:block;
-    font-size:clamp(1.7rem,7vw,2.6rem);
-    font-weight:400;
-    letter-spacing:.06em;
-    color:var(--saffron);
-    margin-top:.5rem;
-    line-height:1.2;
-  }
-  .intro{
-    margin:1.75rem 0 0;
-    max-width:34rem;
-    color:var(--muted);
-  }
-  .intro strong{color:var(--parchment);font-weight:500}
+  .nav{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.75rem 1.5rem;padding-top:1.25rem;padding-bottom:1.25rem;border-bottom:1px solid var(--rule)}
+  .brand{display:flex;align-items:baseline;gap:.75rem;font-weight:600;font-size:1.25rem;letter-spacing:-.02em;text-decoration:none}
+  .brand .tif{font-size:1rem}
+  .nav-links{display:flex;flex-wrap:wrap;gap:.25rem 1.75rem;font-size:.94rem}
+  .nav-links a{padding:.6rem 0;text-decoration:none}
+  .nav-links a:hover{color:var(--saffron)}
 
-  .actions{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1.75rem}
+  .hero-body{display:flex;flex-wrap:wrap;align-items:center;gap:3.5rem;padding-top:clamp(3.5rem,8vw,7rem);padding-bottom:clamp(3.5rem,7vw,6rem)}
+  .hero-text{flex:999 1 32rem;min-width:0;display:flex;flex-direction:column;gap:1.5rem}
+  .eyebrow{
+    align-self:flex-start;display:inline-flex;align-items:center;gap:.5rem;
+    padding:.35rem .9rem;border:1px solid var(--rule-strong);border-radius:999px;
+    font-size:.8rem;font-weight:500;letter-spacing:.04em;text-transform:uppercase;color:var(--saffron);
+  }
+  .eyebrow::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--saffron)}
+  h1{margin:0;font-weight:600;font-size:clamp(2.6rem,6vw,5rem);line-height:1.02;letter-spacing:-.035em}
+  .intro{margin:0;max-width:35rem;font-size:clamp(1.05rem,1.5vw,1.2rem);color:var(--soft)}
+  .actions{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:.5rem}
   .btn{
-    display:inline-flex;align-items:center;gap:.55rem;
-    font:inherit;font-weight:600;font-size:.97rem;
-    padding:.7rem 1.15rem;
-    border-radius:999px;
-    border:1px solid var(--rule);
-    background:rgba(15,25,48,.55);
-    color:var(--parchment);
-    text-decoration:none;
-    cursor:pointer;
+    display:inline-flex;align-items:center;gap:.6rem;
+    min-height:3.1rem;padding:0 1.4rem;border-radius:999px;
+    font:inherit;font-weight:600;font-size:.97rem;text-decoration:none;cursor:pointer;
+    border:1px solid var(--rule-strong);background:rgba(15,25,48,.5);color:var(--parchment);
   }
-  .btn-primary{background:var(--saffron);border-color:var(--saffron);color:var(--indigo-deep)}
   .btn:hover{border-color:var(--saffron)}
+  .btn-primary{background:var(--saffron);border-color:var(--saffron);color:var(--indigo-deep)}
   .btn-primary:hover{filter:brightness(1.08)}
-  .btn:focus-visible{outline:2px solid var(--parchment);outline-offset:3px}
-  .btn svg{width:1rem;height:1rem;flex:none}
-  .made{display:block;margin-top:.9rem;color:var(--muted);font-size:.85rem}
+  .btn svg{width:1rem;height:1rem}
+
+  .tour-card{
+    flex:1 1 23rem;min-width:0;padding:0;font:inherit;color:inherit;text-align:left;cursor:pointer;
+    display:flex;flex-direction:column;border:1px solid var(--rule-strong);border-radius:1.1rem;overflow:hidden;
+    background:var(--indigo-deep);box-shadow:0 1.5rem 3rem rgba(0,0,0,.35);
+  }
+  .tour-card:hover{border-color:var(--saffron)}
+  .poster{position:relative;display:block}
+  .poster img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover}
+  .play{
+    position:absolute;left:50%;top:50%;width:4rem;height:4rem;transform:translate(-50%,-50%);
+    border-radius:50%;background:var(--saffron);color:var(--indigo-deep);display:grid;place-items:center;
+  }
+  .play svg{width:1.4rem;height:1.4rem;margin-left:.15rem}
+  .tour-card-bar{display:flex;justify-content:space-between;align-items:center;gap:.75rem;padding:.85rem 1.1rem;font-size:.88rem}
+  .tour-card-bar strong{font-weight:600}
+  .tour-card-bar span{color:var(--muted)}
 
   .bg-toggle{
     position:absolute;right:1rem;bottom:1rem;z-index:2;
-    width:2.5rem;height:2.5rem;border-radius:50%;
+    width:2.75rem;height:2.75rem;border-radius:50%;
     display:grid;place-items:center;
-    background:rgba(15,25,48,.6);
-    border:1px solid var(--rule);
-    color:var(--parchment);
-    cursor:pointer;
+    background:rgba(15,25,48,.6);border:1px solid var(--rule);color:var(--parchment);cursor:pointer;
   }
   .bg-toggle:hover{border-color:var(--saffron)}
-  .bg-toggle:focus-visible{outline:2px solid var(--saffron);outline-offset:3px}
   .bg-toggle svg{width:1rem;height:1rem}
-  @media (max-width:40rem){.bg-toggle{top:1rem;bottom:auto}}
 
-  /* Apps */
-  .apps-wrap{padding-top:1rem}
-  .apps{border-top:1px solid var(--rule)}
+  /* Principles */
+  .principles{border-bottom:1px solid var(--rule)}
+  .principles ul{list-style:none;margin:0 auto;display:flex;flex-wrap:wrap}
+  .principles li{flex:1 1 15rem;min-width:0;display:flex;gap:.9rem;align-items:flex-start;padding:1.75rem 1.5rem 1.75rem 0}
+  .principles svg{width:1.4rem;height:1.4rem;margin-top:.2rem;stroke:var(--saffron)}
+  .principles strong{display:block;font-weight:600}
+  .principles span span{font-size:.94rem;color:var(--muted)}
+
+  /* Tools */
+  .tools{padding-top:clamp(4rem,8vw,6.5rem);padding-bottom:clamp(4rem,8vw,6.5rem);display:flex;flex-direction:column;gap:2.25rem}
+  .tools-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:1.5rem}
+  h2{margin:0;font-weight:600;font-size:clamp(2rem,4vw,3rem);line-height:1.05;letter-spacing:-.03em}
+  .lede{margin:.6rem 0 0;color:var(--muted)}
+  .filters{display:flex;flex-wrap:wrap;gap:.5rem}
+  .filters button{
+    min-height:2.75rem;padding:0 1.1rem;border-radius:999px;cursor:pointer;
+    font:inherit;font-size:.94rem;font-weight:500;
+    background:transparent;color:var(--parchment);border:1px solid var(--rule-strong);
+  }
+  .filters button:hover{border-color:var(--saffron)}
+  .filters button[aria-pressed="true"]{background:var(--saffron);border-color:var(--saffron);color:var(--indigo-deep)}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(20rem,100%),1fr));gap:1.25rem}
   .app{
-    position:relative;
-    display:grid;
-    grid-template-columns:4.25rem 1fr;
-    gap:1.25rem;
-    align-items:start;
-    padding:1.75rem 0;
-    border-bottom:1px solid var(--rule);
-    text-decoration:none;
-    color:inherit;
+    display:flex;flex-direction:column;text-decoration:none;
+    border:1px solid var(--rule);border-radius:1.1rem;overflow:hidden;background:var(--indigo-deep);
+    transition:border-color .2s ease,transform .2s ease;
   }
-  .icon{
-    width:4.25rem;
-    height:4.25rem;
-    border-radius:1.05rem;
-    display:block;
-    background:var(--indigo-deep);
-  }
-  .app h2{
-    margin:0;
-    font-size:1.2rem;
-    font-weight:600;
-    letter-spacing:-.015em;
-  }
-  .app p{margin:.4rem 0 0;color:var(--muted);font-size:.97rem}
-  .app:hover h2,.app:focus-visible h2{color:var(--saffron)}
-  .app:focus-visible{outline:2px solid var(--saffron);outline-offset:6px;border-radius:2px}
+  .app[hidden]{display:none}
+  .app:hover,.app:focus-visible{border-color:var(--saffron)}
+  @media (prefers-reduced-motion:no-preference){.app:hover{transform:translateY(-2px)}}
+  .shot{position:relative;display:block;aspect-ratio:480/300;overflow:hidden;border-bottom:1px solid var(--rule);background:var(--indigo)}
+  .shot img,.shot video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+  .app-body{display:flex;flex-direction:column;gap:.9rem;padding:1.35rem 1.35rem 1.5rem;flex-grow:1}
+  .app-title{display:flex;align-items:center;gap:.9rem}
+  .icon{width:3rem;height:3rem;border-radius:.75rem;object-fit:cover;flex:none;background:var(--indigo)}
+  .app h3{margin:0;font-size:1.18rem;font-weight:600;letter-spacing:-.015em;line-height:1.25}
+  .domain{display:block;font-size:.8rem;color:var(--muted)}
+  .app p{margin:0;font-size:.94rem;line-height:1.55;color:var(--soft);flex-grow:1}
+  .app-foot{display:flex;justify-content:space-between;align-items:center;gap:.75rem;padding-top:.85rem;border-top:1px solid var(--rule);font-size:.82rem}
+  .app-foot .topic{color:var(--muted)}
+  .open{display:inline-flex;align-items:center;gap:.35rem;font-weight:600;color:var(--saffron)}
+  .open svg{width:.9rem;height:.9rem}
 
-  /* Hover previews: a short silent clip of each tool, shown in the right
-     margin on wide screens with a mouse. Hidden everywhere else. */
-  .preview{display:none}
-  @media (hover:hover) and (min-width:78rem){
-    .preview{
-      display:block;
-      position:absolute;
-      left:calc(100% + 2.5rem);
-      top:50%;
-      width:17rem;
-      aspect-ratio:480/422;
-      border-radius:1rem;
-      overflow:hidden;
-      border:1px solid var(--rule);
-      background:var(--indigo-deep) center/cover no-repeat;
-      box-shadow:0 1.5rem 3rem rgba(0,0,0,.35);
-      opacity:0;
-      transform:translate(-.75rem,-50%) scale(.97);
-      transition:opacity .25s ease,transform .25s ease;
-      pointer-events:none;
-    }
-    .preview video{width:100%;height:100%;object-fit:cover;display:block}
-    .app:hover .preview,.app:focus-visible .preview{opacity:1;transform:translate(0,-50%) scale(1)}
+  /* Tour section */
+  .tour-section{background:var(--indigo-deep);border-top:1px solid var(--rule)}
+  .tour-inner{display:flex;flex-wrap:wrap;gap:3rem;align-items:flex-start;padding-top:clamp(4rem,8vw,6.5rem);padding-bottom:clamp(4rem,8vw,6.5rem)}
+  .tour-main{flex:999 1 35rem;min-width:0;display:flex;flex-direction:column;gap:1rem}
+  .tour-main .lede{max-width:35rem;margin:0 0 .75rem}
+  .tour-big{padding:0;border:1px solid var(--rule-strong);border-radius:1.1rem;overflow:hidden;background:#000;cursor:pointer;font:inherit;color:inherit}
+  .tour-big:hover{border-color:var(--saffron)}
+  .tour-big .play{width:5rem;height:5rem}
+  .tour-big .play svg{width:1.75rem;height:1.75rem}
+  .chapter-nav{flex:1 1 19rem;min-width:0;display:flex;flex-direction:column;gap:.75rem}
+  .chapter-nav h3{margin:0;font-size:.8rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+  .chapter-list{margin:0;padding:0;list-style:none;border-top:1px solid var(--rule)}
+  .chapter-list li{border-bottom:1px solid var(--rule)}
+  .chapter-list button{
+    width:100%;min-height:2.75rem;display:flex;gap:1rem;align-items:center;padding:.5rem 0;
+    border:0;background:none;color:var(--parchment);font:inherit;font-size:.94rem;text-align:left;cursor:pointer;
   }
+  .chapter-list button:hover{color:var(--saffron)}
+  .chapter-list time{width:2.5rem;flex:none;font-variant-numeric:tabular-nums;color:var(--saffron)}
 
   /* Tour player */
   dialog.tour{
@@ -181,7 +182,7 @@
   dialog.tour::backdrop{background:rgba(8,13,26,.82)}
   .tour video{display:block;width:100%;aspect-ratio:16/9;background:#000}
   .tour-bar{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.75rem 1rem}
-  .tour-bar h2{margin:0;font-size:1rem;font-weight:600}
+  .tour-bar h2{margin:0;font-size:1rem;font-weight:600;letter-spacing:0}
   .close{
     font:inherit;background:none;border:1px solid var(--rule);color:var(--parchment);
     border-radius:999px;padding:.35rem .9rem;cursor:pointer;
@@ -197,13 +198,13 @@
   .chapters button:hover{color:var(--parchment);border-color:var(--saffron)}
   .chapters button[aria-current="true"]{background:var(--saffron);border-color:var(--saffron);color:var(--indigo-deep)}
 
-  footer{
-    margin-top:3rem;
-    color:var(--muted);
-    font-size:.9rem;
-  }
-  footer a{color:var(--parchment);text-decoration:none;border-bottom:1px solid var(--rule)}
-  footer a:hover,footer a:focus-visible{border-bottom-color:var(--saffron)}
+  footer{border-top:1px solid var(--rule)}
+  .foot{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:1.5rem;padding-top:3rem;padding-bottom:3.5rem}
+  .foot-name{display:flex;align-items:baseline;gap:.75rem;font-weight:600;font-size:1.75rem;letter-spacing:-.03em}
+  .foot-name .tif{font-size:1.25rem}
+  .foot p{margin:0;font-size:.94rem;color:var(--muted)}
+  .foot p a{color:var(--parchment);text-underline-offset:4px}
+  .foot p a:hover{color:var(--saffron)}
 </style>
 </head>
 <body>
@@ -215,26 +216,43 @@
     <source src="./media/ambient.mp4" type="video/mp4">
   </video>
 
-  <div class="wrap">
-    <h1 class="name">
-      Bourzik
-      <span class="name-tif tif" lang="zgh">ⴱⵓⵔⵣⵉⴽ</span>
-    </h1>
-
-    <p class="intro">
-      <strong>Bourzik laboratory</strong> is a workshop for small web tools, experiments in
-      language, script, data and physics. Each one does a single thing, runs entirely in the
-      browser, and keeps whatever you do on your own device. All free, all open.
-    </p>
-
-    <div class="actions">
-      <button class="btn btn-primary" type="button" id="open-tour">
-        <svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M4 2.5v11l9-5.5z"/></svg>
-        Watch the 3-minute tour
-      </button>
-      <a class="btn" href="#tools">Explore the tools</a>
+  <nav class="wrap nav" aria-label="Primary">
+    <a class="brand" href="#top">Bourzik <span class="tif" lang="zgh">ⴱⵓⵔⵣⵉⴽ</span></a>
+    <div class="nav-links">
+      <a href="#tools">Tools</a>
+      <a href="#tour">Tour</a>
+      <a href="https://github.com/borabrepo">GitHub</a>
     </div>
-    <span class="made">The tour was made entirely with AI: script, motion, images, voice, music and sound.</span>
+  </nav>
+
+  <div class="wrap hero-body" id="top">
+    <div class="hero-text">
+      <span class="eyebrow">Bourzik laboratory</span>
+      <h1>Small tools for language, script and data.</h1>
+      <p class="intro">
+        A workshop for small web experiments in language, script, data and physics. Each one does a
+        single thing, runs entirely in the browser, and keeps whatever you do on your own device.
+        All free, all open.
+      </p>
+      <div class="actions">
+        <a class="btn btn-primary" href="#tools">
+          Explore the tools
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="M6 13l6 6 6-6"/></svg>
+        </a>
+        <button class="btn" type="button" data-open-tour>
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M4 2.5v11l9-5.5z"/></svg>
+          Watch the 3-minute tour
+        </button>
+      </div>
+    </div>
+
+    <button class="tour-card" type="button" data-open-tour aria-label="Play the 3-minute tour of the lab">
+      <span class="poster">
+        <img src="./media/tour-poster.jpg" alt="" width="1280" height="720">
+        <span class="play"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M4 2.5v11l9-5.5z"/></svg></span>
+      </span>
+      <span class="tour-card-bar"><strong>A tour of the lab</strong><span>3:00 · 12 chapters</span></span>
+    </button>
   </div>
 
   <button class="bg-toggle" type="button" id="bg-toggle" aria-label="Pause background animation" aria-pressed="false">
@@ -242,75 +260,172 @@
   </button>
 </header>
 
-<main class="wrap apps-wrap" id="tools">
+<section class="principles" aria-label="How every tool works">
+  <ul class="wrap">
+    <li>
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 8h18"/><path d="M8 22h8"/></svg>
+      <span><strong>Runs in your browser</strong><span>Nothing to install, works offline.</span></span>
+    </li>
+    <li>
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+      <span><strong>Stores nothing</strong><span>Your work stays on your device.</span></span>
+    </li>
+    <li>
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 7l-5 5 5 5"/><path d="M16 7l5 5-5 5"/><path d="M14 4l-4 16"/></svg>
+      <span><strong>Free and open</strong><span>Built in the open on GitHub.</span></span>
+    </li>
+    <li>
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 17l.8 2.2L22 20l-2.2.8L19 23l-.8-2.2L16 20l2.2-.8z"/></svg>
+      <span><strong>Made with AI</strong><span>Tools and tour, end to end.</span></span>
+    </li>
+  </ul>
+</section>
 
-  <section class="apps">
+<main class="wrap tools" id="tools">
+  <div class="tools-head">
+    <div>
+      <h2>The tools</h2>
+      <p class="lede" id="tools-count" aria-live="polite">Seven experiments, each on its own subdomain.</p>
+    </div>
+    <div class="filters" role="group" aria-label="Filter tools by topic">
+      <button type="button" data-filter="all" aria-pressed="true">All</button>
+      <button type="button" data-filter="language" aria-pressed="false">Language &amp; script</button>
+      <button type="button" data-filter="data" aria-pressed="false">Data &amp; maps</button>
+      <button type="button" data-filter="physics" aria-pressed="false">Physics &amp; engines</button>
+      <button type="button" data-filter="study" aria-pressed="false">Study</button>
+    </div>
+  </div>
 
-    <a class="app" href="https://tifinagh.bourzik.com" data-preview="tifinagh">
-      <img class="icon" src="./icons/tifinagh.png" alt="" width="68" height="68">
-      <span>
-        <h2>Tifinagh Converter</h2>
+  <div class="grid">
+
+    <a class="app" href="https://tifinagh.bourzik.com" data-preview="tifinagh" data-topic="language">
+      <span class="shot"><img src="./media/previews/tifinagh.jpg" alt="" loading="lazy" width="480" height="422"></span>
+      <div class="app-body">
+        <div class="app-title">
+          <img class="icon" src="./icons/tifinagh.png" alt="" width="48" height="48">
+          <div><h3>Tifinagh Converter</h3><span class="domain">tifinagh.bourzik.com</span></div>
+        </div>
         <p>Write Amazigh in various languages' letters and read it back in Tifinagh, or the other way round.</p>
-      </span>
+        <span class="app-foot"><span class="topic">Language &amp; script</span><span class="open">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg></span></span>
+      </div>
     </a>
 
-    <a class="app" href="https://genus.bourzik.com" data-preview="genus">
-      <img class="icon" src="./icons/genus.png" alt="" width="68" height="68">
-      <span>
-        <h2>Genus checker</h2>
+    <a class="app" href="https://genus.bourzik.com" data-preview="genus" data-topic="language">
+      <span class="shot"><img src="./media/previews/genus.jpg" alt="" loading="lazy" width="480" height="422"></span>
+      <div class="app-body">
+        <div class="app-title">
+          <img class="icon" src="./icons/genus.png" alt="" width="48" height="48">
+          <div><h3>Genus checker</h3><span class="domain">genus.bourzik.com</span></div>
+        </div>
         <p>Look up the gender of any German or other language noun, and drill the ones you keep getting wrong.</p>
-      </span>
+        <span class="app-foot"><span class="topic">Language &amp; script</span><span class="open">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg></span></span>
+      </div>
     </a>
 
-    <a class="app" href="https://tree.bourzik.com" data-preview="bormap">
-      <img class="icon" src="./icons/tree.png" alt="" width="68" height="68">
-      <span>
-        <h2>Bormap</h2>
+    <a class="app" href="https://tree.bourzik.com" data-preview="bormap" data-topic="data">
+      <span class="shot"><img src="./media/previews/bormap.jpg" alt="" loading="lazy" width="480" height="422"></span>
+      <div class="app-body">
+        <div class="app-title">
+          <img class="icon" src="./icons/tree.png" alt="" width="48" height="48">
+          <div><h3>Bormap</h3><span class="domain">tree.bourzik.com</span></div>
+        </div>
         <p>Map ideas, people or data as a connected graph and follow the branches.</p>
-      </span>
+        <span class="app-foot"><span class="topic">Data &amp; maps</span><span class="open">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg></span></span>
+      </div>
     </a>
 
-    <a class="app" href="https://jelly-fruit.bourzik.com" data-preview="jelly">
-      <img class="icon" src="./icons/jelly.svg" alt="" width="68" height="68">
-      <span>
-        <h2>Fruit Jelly Knife</h2>
+    <a class="app" href="https://jelly-fruit.bourzik.com" data-preview="jelly" data-topic="physics">
+      <span class="shot"><img src="./media/previews/jelly.jpg" alt="" loading="lazy" width="480" height="422"></span>
+      <div class="app-body">
+        <div class="app-title">
+          <img class="icon" src="./icons/jelly.svg" alt="" width="48" height="48">
+          <div><h3>Fruit Jelly Knife</h3><span class="domain">jelly-fruit.bourzik.com</span></div>
+        </div>
         <p>Pull, wobble and slice a translucent gummy fruit, a soft-body physics study rendered in WebGPU.</p>
-      </span>
+        <span class="app-foot"><span class="topic">Physics &amp; engines</span><span class="open">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg></span></span>
+      </div>
     </a>
 
-    <a class="app" href="https://vectorspec.bourzik.com" data-preview="vectorspec">
-      <img class="icon" src="./icons/vectorspec.png" alt="" width="68" height="68">
-      <span>
-        <h2>VECTORSPEC Engine Lab</h2>
-        <p>Run four heat engines, a single piston, a turbo four, a turbofan and a ship's steam plant,  and watch their cycles, limits and failures live.</p>
-      </span>
+    <a class="app" href="https://vectorspec.bourzik.com" data-preview="vectorspec" data-topic="physics">
+      <span class="shot"><img src="./media/previews/vectorspec.jpg" alt="" loading="lazy" width="480" height="422"></span>
+      <div class="app-body">
+        <div class="app-title">
+          <img class="icon" src="./icons/vectorspec.png" alt="" width="48" height="48">
+          <div><h3>VECTORSPEC Engine Lab</h3><span class="domain">vectorspec.bourzik.com</span></div>
+        </div>
+        <p>Run four heat engines, a single piston, a turbo four, a turbofan and a ship's steam plant, and watch their cycles, limits and failures live.</p>
+        <span class="app-foot"><span class="topic">Physics &amp; engines</span><span class="open">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg></span></span>
+      </div>
     </a>
 
-    <a class="app" href="https://ccdvf.bourzik.com" data-preview="ccdvf">
-      <img class="icon" src="./icons/ccdvf.svg" alt="" width="68" height="68">
-      <span>
-        <h2>CCDV-F Prep Hub</h2>
+    <a class="app" href="https://ccdvf.bourzik.com" data-preview="ccdvf" data-topic="study">
+      <span class="shot"><img src="./media/previews/ccdvf.jpg" alt="" loading="lazy" width="480" height="422"></span>
+      <div class="app-body">
+        <div class="app-title">
+          <img class="icon" src="./icons/ccdvf.svg" alt="" width="48" height="48">
+          <div><h3>CCDV-F Prep Hub</h3><span class="domain">ccdvf.bourzik.com</span></div>
+        </div>
         <p>Study guide, flashcards and timed mock exams for the Claude Certified Developer &ndash; Foundations exam.</p>
-      </span>
+        <span class="app-foot"><span class="topic">Study</span><span class="open">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg></span></span>
+      </div>
     </a>
 
-    <a class="app" href="https://agent-map.bourzik.com" data-preview="agentmap">
-      <img class="icon" src="./icons/agent-map.png" alt="" width="68" height="68">
-      <span>
-        <h2>Agent Map</h2>
+    <a class="app" href="https://agent-map.bourzik.com" data-preview="agentmap" data-topic="data">
+      <span class="shot"><img src="./media/previews/agentmap.jpg" alt="" loading="lazy" width="480" height="422"></span>
+      <div class="app-body">
+        <div class="app-title">
+          <img class="icon" src="./icons/agent-map.png" alt="" width="48" height="48">
+          <div><h3>Agent Map</h3><span class="domain">agent-map.bourzik.com</span></div>
+        </div>
         <p>Explore about 100 AI agent tools on one animated map, then build your own stack and take it with you as JSON.</p>
-      </span>
+        <span class="app-foot"><span class="topic">Data &amp; maps</span><span class="open">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg></span></span>
+      </div>
     </a>
 
-  </section>
-
-  <footer>
-    Built in the open on <a href="https://github.com/borabrepo">GitHub</a>.
-  </footer>
-
+  </div>
 </main>
 
-<dialog class="tour" id="tour" aria-labelledby="tour-title">
+<section class="tour-section" id="tour" aria-labelledby="tour-heading">
+  <div class="wrap tour-inner">
+    <div class="tour-main">
+      <h2 id="tour-heading">Seven tools, one lab</h2>
+      <p class="lede">A 3-minute tour made entirely with AI: script, motion, images, voice, music and sound.</p>
+      <button class="tour-big" type="button" data-open-tour aria-label="Play the tour">
+        <span class="poster">
+          <img src="./media/tour-poster.jpg" alt="" loading="lazy" width="1280" height="720">
+          <span class="play"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M4 2.5v11l9-5.5z"/></svg></span>
+        </span>
+      </button>
+    </div>
+    <nav class="chapter-nav" aria-labelledby="chapter-heading">
+      <h3 id="chapter-heading">Chapters</h3>
+      <!-- Filled from the chapters track; this static list is the fallback. -->
+      <ol class="chapter-list" id="chapter-list">
+        <li><button type="button" data-start="0"><time>0:00</time>Bourzik</button></li>
+        <li><button type="button" data-start="8.967"><time>0:09</time>The lab</button></li>
+        <li><button type="button" data-start="25.733"><time>0:26</time>Tifinagh Converter</button></li>
+        <li><button type="button" data-start="46.467"><time>0:46</time>Genus</button></li>
+        <li><button type="button" data-start="68.167"><time>1:08</time>Bormap</button></li>
+        <li><button type="button" data-start="78.433"><time>1:18</time>Fruit Jelly Knife</button></li>
+        <li><button type="button" data-start="90.833"><time>1:31</time>VECTORSPEC Engine Lab</button></li>
+        <li><button type="button" data-start="105.733"><time>1:46</time>CCDV-F Prep Hub</button></li>
+        <li><button type="button" data-start="119.5"><time>2:00</time>Agent Map</button></li>
+        <li><button type="button" data-start="133.567"><time>2:14</time>Seven tools, one lab</button></li>
+        <li><button type="button" data-start="153.5"><time>2:34</time>Made 100% with AI</button></li>
+        <li><button type="button" data-start="171.567"><time>2:52</time>Let's build yours</button></li>
+      </ol>
+    </nav>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <span class="foot-name">Bourzik <span class="tif" lang="zgh">ⴱⵓⵔⵣⵉⴽ</span></span>
+    <p>Built in the open on <a href="https://github.com/borabrepo">GitHub</a>.</p>
+  </div>
+</footer>
+
+<dialog class="tour" id="tour-dialog" aria-labelledby="tour-title">
   <video id="tour-video" controls playsinline preload="none" poster="./media/tour-poster.jpg">
     <source src="./media/tour.webm?v=3" type="video/webm">
     <source src="./media/tour.mp4?v=3" type="video/mp4">
@@ -350,41 +465,63 @@
   reduce.addEventListener('change', (e) => { paused = e.matches; apply(); });
   apply();
 
-  /* Hover previews: the clip is only loaded the first time a row is hovered. */
-  const canPreview = window.matchMedia('(hover: hover) and (min-width: 78rem)');
-  document.querySelectorAll('.app[data-preview]').forEach((row) => {
-    const name = row.dataset.preview;
-    const box = document.createElement('span');
-    box.className = 'preview';
-    box.setAttribute('aria-hidden', 'true');
-    box.style.backgroundImage = `url("./media/previews/${name}.jpg")`;
-    row.appendChild(box);
+  /* Topic filters */
+  const cards = [...document.querySelectorAll('.app[data-topic]')];
+  const filterButtons = [...document.querySelectorAll('[data-filter]')];
+  const count = document.getElementById('tools-count');
+  const ALL_TEXT = count.textContent;
+  filterButtons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const topic = btn.dataset.filter;
+      filterButtons.forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+      let shown = 0;
+      cards.forEach((card) => {
+        const match = topic === 'all' || card.dataset.topic === topic;
+        card.hidden = !match;
+        if (match) shown++;
+      });
+      count.textContent = topic === 'all'
+        ? ALL_TEXT
+        : `${shown} ${shown === 1 ? 'tool' : 'tools'} in ${btn.textContent}.`;
+    });
+  });
+
+  /* Hover previews: the still becomes a short silent clip of the tool. The clip is
+     only loaded the first time a card is hovered, and never with reduced motion. */
+  const canPreview = window.matchMedia('(hover: hover)');
+  cards.forEach((card) => {
+    const name = card.dataset.preview;
+    const shot = card.querySelector('.shot');
     let video;
     const start = () => {
       if (!canPreview.matches || reduce.matches) return;
       if (!video) {
         video = document.createElement('video');
         video.muted = true; video.loop = true; video.playsInline = true;
+        video.setAttribute('aria-hidden', 'true');
+        video.poster = `./media/previews/${name}.jpg`;
         video.innerHTML =
           `<source src="./media/previews/${name}.webm" type="video/webm">` +
           `<source src="./media/previews/${name}.mp4" type="video/mp4">`;
-        box.appendChild(video);
+        shot.appendChild(video);
       }
       video.currentTime = 0;
       video.play().catch(() => {});
     };
     const stop = () => { if (video) video.pause(); };
-    row.addEventListener('mouseenter', start);
-    row.addEventListener('focus', start);
-    row.addEventListener('mouseleave', stop);
-    row.addEventListener('blur', stop);
+    card.addEventListener('mouseenter', start);
+    card.addEventListener('focus', start);
+    card.addEventListener('mouseleave', stop);
+    card.addEventListener('blur', stop);
   });
 
   /* Tour: native <dialog> with clickable chapters read from the chapters track. */
-  const dialog = document.getElementById('tour');
+  const dialog = document.getElementById('tour-dialog');
   const tour = document.getElementById('tour-video');
   const list = document.getElementById('chapters');
   const chapterTrack = [...tour.textTracks].find((t) => t.kind === 'chapters');
+
+  const seek = (time) => { tour.currentTime = time + 0.05; tour.play().catch(() => {}); };
 
   const buildChapters = () => {
     if (!chapterTrack || !chapterTrack.cues || list.children.length) return;
@@ -393,7 +530,7 @@
       const b = document.createElement('button');
       b.type = 'button';
       b.textContent = cue.text;
-      b.addEventListener('click', () => { tour.currentTime = cue.startTime + 0.05; tour.play().catch(() => {}); });
+      b.addEventListener('click', () => seek(cue.startTime));
       li.appendChild(b);
       list.appendChild(li);
     });
@@ -408,12 +545,23 @@
   }
   tour.addEventListener('loadedmetadata', buildChapters);
 
-  document.getElementById('open-tour').addEventListener('click', () => {
+  const openTour = (start) => {
     dialog.showModal();
     if (!paused) bg.pause();
-    tour.play().catch(() => {});
+    if (typeof start === 'number') {
+      const go = () => seek(start);
+      if (tour.readyState >= 1) go();
+      else { tour.addEventListener('loadedmetadata', go, { once: true }); tour.load(); }
+    } else {
+      tour.play().catch(() => {});
+    }
     setTimeout(buildChapters, 300);
-  });
+  };
+  document.querySelectorAll('[data-open-tour]').forEach((b) =>
+    b.addEventListener('click', () => openTour()));
+  document.querySelectorAll('#chapter-list [data-start]').forEach((b) =>
+    b.addEventListener('click', () => openTour(parseFloat(b.dataset.start))));
+
   const close = () => dialog.close();
   document.getElementById('close-tour').addEventListener('click', close);
   dialog.addEventListener('click', (e) => { if (e.target === dialog) close(); });
