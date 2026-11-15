@@ -129,7 +129,7 @@
   /* App cards, App Store style, as glass panes */
   .apps{list-style:none;margin:0;padding:0;display:grid;gap:.8rem;grid-template-columns:repeat(auto-fill,minmax(19.5rem,1fr))}
   .app{
-    position:relative;display:grid;grid-template-columns:auto 1fr auto;gap:.35rem 1rem;align-items:center;
+    position:relative;display:grid;grid-template-columns:auto 1fr;gap:.35rem 1rem;align-items:center;
     padding:1rem;border-radius:24px;transition:transform .18s ease,border-color .18s;
   }
   .app:hover{border-color:var(--edge);transform:translateY(-2px)}
@@ -138,14 +138,14 @@
   .app .meta{min-width:0;align-self:end}
   .app h3{margin:0;font-size:1.04rem;font-weight:600;letter-spacing:-.01em;line-height:1.25}
   .app .cat{font-size:.8rem;color:var(--muted)}
-  .app p{grid-column:2 / span 2;margin:0;font-size:.9rem;color:var(--soft);align-self:start;
+  .app p{grid-column:2;margin:0;font-size:.9rem;color:var(--soft);align-self:start;
     display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-  .get{
-    align-self:end;text-decoration:none;font-weight:600;font-size:.85rem;letter-spacing:.02em;
-    padding:.35rem 1rem;border-radius:999px;background:var(--glass-strong);color:var(--ink);box-shadow:inset 0 1px 0 var(--edge);
-  }
-  .get::after{content:"";position:absolute;inset:0;border-radius:24px} /* the whole card is clickable */
-  .app:hover .get{background:var(--accent);color:var(--on-accent);box-shadow:none}
+  /* The app name is the link; its ::after stretches over the whole card, logo included. */
+  .app h3 a{text-decoration:none}
+  .app h3 a::after{content:"";position:absolute;inset:0;border-radius:24px}
+  .app:hover h3 a{color:var(--accent)}
+  .app:has(a:focus-visible){outline:2px solid var(--accent);outline-offset:3px}
+  .app h3 a:focus-visible{outline:none}
   .app[hidden]{display:none}
 
   /* List layout: one glass sheet, one app per row, full description */
@@ -158,7 +158,7 @@
   .apps.list .app:hover{transform:none;background:var(--glass)}
   .apps.list .app img{width:64px;height:64px;border-radius:16px}
   .apps.list .app p{-webkit-line-clamp:unset}
-  .apps.list .get::after{border-radius:0}
+  .apps.list .app h3 a::after{border-radius:0}
 
   .count{color:var(--muted);font-size:.85rem;margin:1rem .25rem 0}
 
@@ -244,62 +244,52 @@
   <ul class="apps" id="list">
     <li class="app glass" data-cat="study">
       <img src="./icons/ai-stack.png" alt="" width="72" height="72" loading="lazy">
-      <div class="meta"><h3>AI Stack Atlas</h3><span class="cat">Study</span></div>
-      <a class="get" href="https://ai-stack.bourzik.com" aria-label="Open AI Stack Atlas">Open</a>
+      <div class="meta"><h3><a href="https://ai-stack.bourzik.com">AI Stack Atlas</a></h3><span class="cat">Study</span></div>
       <p>Learn the seven layers of AI engineering, from GPUs to agents, with lessons, labs, flashcards and a quiz.</p>
     </li>
     <li class="app glass" data-cat="data">
       <img src="./icons/agent-map.png" alt="" width="72" height="72" loading="lazy">
-      <div class="meta"><h3>Agent Map</h3><span class="cat">Data &amp; maps</span></div>
-      <a class="get" href="https://agent-map.bourzik.com" aria-label="Open Agent Map">Open</a>
+      <div class="meta"><h3><a href="https://agent-map.bourzik.com">Agent Map</a></h3><span class="cat">Data &amp; maps</span></div>
       <p>About 100 AI agent tools on one animated map. Build your own stack and take it with you as JSON.</p>
     </li>
     <li class="app glass" data-cat="making">
       <img src="./icons/orrery.png" alt="" width="72" height="72" loading="lazy">
-      <div class="meta"><h3>Orrery Studio</h3><span class="cat">Making</span></div>
-      <a class="get" href="https://orrery.bourzik.com" aria-label="Open Orrery Studio">Open</a>
+      <div class="meta"><h3><a href="https://orrery.bourzik.com">Orrery Studio</a></h3><span class="cat">Making</span></div>
       <p>Draw any picture with spinning circles and get its equation, or turn it into stencils and DTF transfers.</p>
     </li>
     <li class="app glass" data-cat="making">
       <img src="./icons/zarbiya.png" alt="" width="72" height="72" loading="lazy">
-      <div class="meta"><h3>Zarbiya</h3><span class="cat">Making</span></div>
-      <a class="get" href="https://orrery.bourzik.com/#zarbiya" aria-label="Open Zarbiya">Open</a>
+      <div class="meta"><h3><a href="https://orrery.bourzik.com/#zarbiya">Zarbiya</a></h3><span class="cat">Making</span></div>
       <p>Turn a picture into a carpet: Moroccan and Persian colour sets, knot charts, tufting templates and a practice loom.</p>
     </li>
     <li class="app glass" data-cat="study">
       <img src="./icons/ccdvf.svg" alt="" width="72" height="72" loading="lazy">
-      <div class="meta"><h3>CCDV-F Prep Hub</h3><span class="cat">Study</span></div>
-      <a class="get" href="https://ccdvf.bourzik.com" aria-label="Open CCDV-F Prep Hub">Open</a>
+      <div class="meta"><h3><a href="https://ccdvf.bourzik.com">CCDV-F Prep Hub</a></h3><span class="cat">Study</span></div>
       <p>Study guide, flashcards and timed mock exams for the Claude Certified Developer – Foundations exam.</p>
     </li>
     <li class="app glass" data-cat="language">
       <img src="./icons/tifinagh.png" alt="" width="72" height="72" loading="lazy">
-      <div class="meta"><h3>Tifinagh Converter</h3><span class="cat">Language</span></div>
-      <a class="get" href="https://tifinagh.bourzik.com" aria-label="Open Tifinagh Converter">Open</a>
+      <div class="meta"><h3><a href="https://tifinagh.bourzik.com">Tifinagh Converter</a></h3><span class="cat">Language</span></div>
       <p>Write Amazigh in Latin or Arabic letters and read it back in Tifinagh, or the other way round.</p>
     </li>
     <li class="app glass" data-cat="language">
       <img src="./icons/genus.png" alt="" width="72" height="72" loading="lazy">
-      <div class="meta"><h3>Genus</h3><span class="cat">Language</span></div>
-      <a class="get" href="https://genus.bourzik.com" aria-label="Open Genus">Open</a>
+      <div class="meta"><h3><a href="https://genus.bourzik.com">Genus</a></h3><span class="cat">Language</span></div>
       <p>Look up the gender of any German noun, and drill the ones you keep getting wrong.</p>
     </li>
     <li class="app glass" data-cat="data">
       <img src="./icons/tree.png" alt="" width="72" height="72" loading="lazy">
-      <div class="meta"><h3>Bormap</h3><span class="cat">Data &amp; maps</span></div>
-      <a class="get" href="https://tree.bourzik.com" aria-label="Open Bormap">Open</a>
+      <div class="meta"><h3><a href="https://tree.bourzik.com">Bormap</a></h3><span class="cat">Data &amp; maps</span></div>
       <p>Map ideas, people or data as a connected graph and follow the branches.</p>
     </li>
     <li class="app glass" data-cat="physics">
       <img src="./icons/vectorspec.png" alt="" width="72" height="72" loading="lazy">
-      <div class="meta"><h3>VECTORSPEC Engine Lab</h3><span class="cat">Physics</span></div>
-      <a class="get" href="https://vectorspec.bourzik.com" aria-label="Open VECTORSPEC Engine Lab">Open</a>
+      <div class="meta"><h3><a href="https://vectorspec.bourzik.com">VECTORSPEC Engine Lab</a></h3><span class="cat">Physics</span></div>
       <p>Run four heat engines, from a single piston to a ship's steam plant, and watch their cycles and limits live.</p>
     </li>
     <li class="app glass" data-cat="physics">
       <img src="./icons/jelly.svg" alt="" width="72" height="72" loading="lazy">
-      <div class="meta"><h3>Fruit Jelly Knife</h3><span class="cat">Physics</span></div>
-      <a class="get" href="https://jelly-fruit.bourzik.com" aria-label="Open Fruit Jelly Knife">Open</a>
+      <div class="meta"><h3><a href="https://jelly-fruit.bourzik.com">Fruit Jelly Knife</a></h3><span class="cat">Physics</span></div>
       <p>Pull, wobble and slice a translucent gummy fruit, a soft-body physics study in WebGPU.</p>
     </li>
   </ul>
